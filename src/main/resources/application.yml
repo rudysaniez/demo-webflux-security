@@ -1,0 +1,58 @@
+
+logging:
+  level:
+    root: INFO
+    
+server.port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+      base-path: /management
+  endpoint:
+    health:
+      show-details: always 
+      cache:
+        time-to-live: 10000ms
+ 
+spring:
+  jackson:
+    deserialization:
+      accept-single-value-as-array: true
+    serialization:
+      write-dates-as-timestamps: false
+    generator:
+      write-numbers-as-strings: false
+    default-property-inclusion: NON_NULL
+    date-format: yyyy-MM-dd'T'HH:mm:ssZ
+  
+  security:
+    oauth2:
+      client:
+        registration:
+          oidcServices:
+            authorization-grant-type: client_credentials
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            scope:
+            - openid
+        provider:
+          oidcServices:
+            token-uri: ${TOKEN_URI}
+      resourceserver:
+        opaquetoken:
+          client-id: ${CLIENT_ID}
+          client-secret: ${CLIENT_SECRET}
+          introspection-uri: ${INTROSPECTION_URI}
+          
+
+  application:
+    name: webflux-security-api
+
+info.application.name: ${spring.application.name}
+info.application.developer.name: rudysaniez
+info.application.developer.email: rudy.saniez@adeo.com
+info.team.domain: instore-operation-and-replenishment
+info.team.email: team.safe@adeo.com

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -e 
+
+cd $(dirname $0)
+
+cat src/main/resources/banner.txt
+echo
+
+Help()
+{
+   # Display Help
+   echo "For the using of this script you need several parameters."
+   echo "The token is required."
+   echo
+   echo "Syntax: [-i|-e|-t-|-h]"
+   echo "options:"
+   echo "i     The resource identifier for the management endpoint [info|health]."
+   echo "e     The endpoint name [management|suppliers(default)]."
+   echo "t     The token (required)."
+   echo "h     Print this Help."
+   echo
+}
+
+while getopts ":e:i:t:h" arg; do
+  case $arg in
+    h) 	Help
+    	exit;;
+    e)	ENDPOINT=$OPTARG;;
+    i) 	ID=$OPTARG;;
+    t) 	TOKEN=$OPTARG;;
+    \?)	#incorrect option
+    	echo "Error : invalid option"
+    	echo
+    	Help
+    	exit;;
+  esac
+done
+
+if [ -z $ENDPOINT ]
+then ENDPOINT="suppliers"
+fi
+
+if [[ -n $ID  && -n $TOKEN ]]
+then http ":8080/$ENDPOINT/$ID" "Authorization: bearer $TOKEN"
+elif [[ -n $ID && -n $TOKEN ]]
+then http ":8080/$ENDPOINT/$ID?$QUERY" "Authorization: bearer $TOKEN"
+elif [[ -n $TOKEN ]] 
+then http ":8080/$ENDPOINT" "Authorization: bearer $TOKEN"
+else 
+echo " > The token is required."
+echo
+Help
+fi
