@@ -16,6 +16,9 @@ management:
       show-details: always 
       cache:
         time-to-live: 10000ms
+    info:
+      cache:
+        time-to-live: 10000ms
  
 spring:
   jackson:
