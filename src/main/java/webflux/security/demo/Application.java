@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -27,10 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebFlux
 @EnableWebFluxSecurity
 @SpringBootApplication
-public class DemoApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
     @Bean
@@ -70,7 +71,7 @@ public class DemoApplication {
 	@Bean
 	public WebClient webClient(ReactiveOAuth2AuthorizedClientManager authorizedClientManager) {
 		
-		ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
+		ServerOAuth2AuthorizedClientExchangeFilterFunction oauth = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 		oauth.setDefaultClientRegistrationId("oidcServices");
 		
 		return WebClient.
@@ -81,6 +82,7 @@ public class DemoApplication {
 	
 	@Autowired WebClient webClient;
 	
+	@Profile("scheduleEnable")
 	@Scheduled(fixedRate = 15000)
 	public void logResourceServiceResponse() {
 

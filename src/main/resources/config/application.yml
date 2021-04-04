@@ -55,7 +55,7 @@ spring:
     name: webflux-security-api
 
 info.application.name: ${spring.application.name}
-info.application.developer.name: rudysaniez
-info.application.developer.email: rudy.saniez@adeo.com
-info.team.domain: instore-operation-and-replenishment
-info.team.email: team.safe@adeo.com
+info.application.developer.name: michaeljordan
+info.application.developer.email: michaeljordan@bulls.com
+info.team.domain: TheUnitedCenter
+info.team.email: team.bulls@bulls.com
